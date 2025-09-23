@@ -1,4 +1,4 @@
-// src/pages/AdminLogin.jsx
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,107 +11,141 @@ import {
   IconButton,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Swal from 'sweetalert2'
 
-export default function AdminLogin() {
+export default function AdminLogin({ setIsAuthenticated }) {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Dummy authentication
-    if (form.email === "admin@dating.com" && form.password === "admin123") {
-      navigate("/dashboard"); // redirect to dashboard
+    if (form.email === "admin@example.com" && form.password === "1234") {
+      setIsAuthenticated(true);
+      Swal.fire({      title: 'Success!',
+      text: 'Your action was successful.',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    })
+      navigate("/dashboard");
     } else {
-      alert("Invalid Credentials!");
+      Swal.fire({
+        title: 'Oops! wrong credentials ',
+        text: 'Try again',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
   };
 
   return (
     <Box
       sx={{
-        height: "100vh",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "linear-gradient(135deg, #F75270, #FAA4BD)",
+        minHeight: "100vh",
+        bgcolor: "#f5f6fa",
       }}
     >
-      <Paper
-        elevation={6}
+      {/* Left Side Image */}
+      <Box
         sx={{
-          p: 4,
-          borderRadius: 4,
-          width: 400,
-          bgcolor: "#fff",
+          flex: 1,
+          background: "linear-gradient(135deg, #191C24 0%, #198754 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
         }}
       >
-        <Typography
-          variant="h5"
+        <img
+          src="/login.svg"
+          alt="Admin Illustration"
+          style={{ width: "70%", maxWidth: "400px" }}
+        />
+      </Box>
+
+      {/* Right Side Login Form */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          p: 4,
+        }}
+      >
+        <Paper
+          elevation={6}
           sx={{
-            textAlign: "center",
-            fontWeight: 600,
-            mb: 2,
-            color: "#F75270",
+            p: 5,
+            width: "100%",
+            maxWidth: 400,
+            borderRadius: "16px",
           }}
         >
-          Admin Login
-        </Typography>
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 3,
-              py: 1.5,
-              fontSize: "16px",
-              fontWeight: "bold",
-              bgcolor: "#F75270",
-              "&:hover": { bgcolor: "#e04460" },
-            }}
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ color: "#191C24", textAlign: "center" }}
           >
-            Login
-          </Button>
-        </form>
-      </Paper>
+            Admin Login
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email Address"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {error && (
+              <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+                {error}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                mt: 3,
+                bgcolor: "#198754",
+                "&:hover": { bgcolor: "#146c43" },
+                borderRadius: "8px",
+                py: 1.2,
+              }}
+            >
+              Login
+            </Button>
+          </form>
+        </Paper>
+      </Box>
     </Box>
   );
 }
