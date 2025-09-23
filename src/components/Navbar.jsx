@@ -1,18 +1,31 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Avatar, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { FaSignOutAlt, FaRedo } from "react-icons/fa";
 
-export default function Navbar() {
+export default function Navbar({ onLogout, onResetPassword }) {
   return (
-    <AppBar position="static" elevation={0} sx={{ bgcolor: 'transparent', boxShadow: 'none' }}>
-      <Toolbar sx={{ p: 0, display: 'flex', justifyContent: 'space-between' }}>
+    <AppBar position="static" sx={{ backgroundColor: "#191C24" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          Admin Panel
+        </Typography>
         <Box>
-          <Typography variant="h5" sx={{ color: '#262626', fontWeight: 800 }}>Admin Dashboard</Typography>
-          <Typography variant="subtitle1" sx={{ color: '#FAA4BD' }}>Manage users & monitor activity</Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          <Button sx={{ textTransform: 'none', bgcolor: '#8CCDED', color: '#262626' }}>New Campaign</Button>
-          <Avatar alt="Admin" src="https://i.pravatar.cc/40?img=3" />
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={<FaRedo />}
+            sx={{ mr: 2 }}
+            onClick={onResetPassword}
+          >
+            Reset Password
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<FaSignOutAlt />}
+            onClick={onLogout}
+          >
+            Logout
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
