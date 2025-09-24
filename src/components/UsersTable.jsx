@@ -8,6 +8,7 @@ import {
   TableRow,
   IconButton,
   TablePagination,
+  Box
 } from "@mui/material";
 import { FaBan, FaCheckCircle } from "react-icons/fa";
 import { useState } from "react";
@@ -15,6 +16,10 @@ import { useState } from "react";
 export default function UsersTable({ data, onToggleBlock }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  if(!data.length){
+    return <p style={{textAlign: 'center', padding: '20px'}}>Loading Users data.....</p>
+  }
 
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
@@ -29,7 +34,7 @@ export default function UsersTable({ data, onToggleBlock }) {
           <TableHead sx={{ backgroundColor: "#A7E399" }}>
             <TableRow>
               {["Name", "Age", "Gender", "Email", "Phone", "Location", "Action"].map((head, i) => (
-                <TableCell key={i} sx={{ color: "#fff", fontWeight: "bold" }}>
+                <TableCell key={i} sx={{ color: "#262626", fontWeight: "bold" }}>
                   {head}
                 </TableCell>
               ))}
@@ -59,7 +64,9 @@ export default function UsersTable({ data, onToggleBlock }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
+
+      <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
+        <TablePagination
         rowsPerPageOptions={[5, 10]}
         component="div"
         count={data.length}
@@ -68,6 +75,7 @@ export default function UsersTable({ data, onToggleBlock }) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      </Box>
     </Paper>
   );
 }

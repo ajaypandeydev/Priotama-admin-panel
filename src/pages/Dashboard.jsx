@@ -24,6 +24,7 @@ export default function AdminDashboard({ onLogout }) {
     { id: 13, name: "William Martin", age: 29, gender: "Male", email: "william@example.com", phone: "6655443322", location: "Jacksonville", blocked: false },
     { id: 14, name: "Susan Lee", age: 30, gender: "Female", email: "susan@example.com", phone: "5544332211", location: "Fort Worth", blocked: true },
     { id: 15, name: "Charles Hall", age: 27, gender: "Male", email: "charles@example.com", phone: "4433221100", location: "Columbus", blocked: false },
+    { id: 16, name: "Charl Hally", age: 37, gender: "Male", email: "charles@example.com", phone: "4433221100", location: "Columbus", blocked: false },
   ];
     setUsers(mockUsers);
   }, []);
@@ -42,10 +43,10 @@ export default function AdminDashboard({ onLogout }) {
   const handleResetPassword = () => alert("Reset Password Clicked");
 
   return (
-    <Box sx={{ minHeight: "100vh", backgroundColor: "#191C24" }}>
+    <Box sx={{ minHeight: "100vh", backgroundColor: "#191C24" }} >
       <Navbar onLogout={onLogout} onResetPassword={handleResetPassword} />
       <Container maxWidth="lg">
-        <AnalyticsCards registered={registeredCount} blocked={blockedCount} />
+        <AnalyticsCards registered={registeredCount} blocked={blockedCount} users={users}/>
         <UsersTable data={users} onToggleBlock={handleToggleBlock} />
       </Container>
     </Box>

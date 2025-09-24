@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -21,9 +21,12 @@ export default function AdminLogin({ setIsAuthenticated }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // replace api 
     if (form.email === "admin@example.com" && form.password === "1234") {
       setIsAuthenticated(true);
-      Swal.fire({      title: 'Success!',
+      localStorage.setItem('isAuthenticated', 'true'); //persist
+      Swal.fire({      
+      title: 'Success!',
       text: 'Your action was successful.',
       icon: 'success',
       confirmButtonText: 'OK'
@@ -31,13 +34,20 @@ export default function AdminLogin({ setIsAuthenticated }) {
       navigate("/dashboard");
     } else {
       Swal.fire({
-        title: 'Oops! wrong credentials ',
+        title: 'Oops! Invalid credentials ',
         text: 'Try again',
         icon: 'error',
         confirmButtonText: 'OK'
       })
     }
   };
+
+  useEffect(() => {
+    const authState = localStorage.getItem("isAuthenticated");
+    if(authState === "true"){
+      navigate('/dashboard')
+    }
+  }, [navigate])
 
   return (
     <Box
