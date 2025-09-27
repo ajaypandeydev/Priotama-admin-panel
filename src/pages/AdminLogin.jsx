@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Swal from 'sweetalert2'
+import axios from "axios";
 
 export default function AdminLogin({ setIsAuthenticated }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,23 +20,43 @@ export default function AdminLogin({ setIsAuthenticated }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // replace api 
-    if (form.email === "admin@example.com" && form.password === "1234") {
-      setIsAuthenticated(true);
-      localStorage.setItem('isAuthenticated', 'true'); //persist
-      Swal.fire({      
-      title: 'Success!',
-      text: 'Your action was successful.',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    })
-      navigate("/dashboard");
-    } else {
+    setError("")
+
+    try{
+      const response = await axios.post(`https://priotama-backend.onrender.com/api/admin/login`, form);
+
+      const {token, admin} = response.data;
+
+      if(admin && token){
+        setIsAuthenticated(true);
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("token", token);
+        localStorage.setItem("admin", JSON.stringify(admin));
+
+        Swal.fire({
+          title: 'Sucess!',
+          text: admin.message || "Login Successfully",
+          icon: "success",
+          confirmButtonText: 'OK'
+        });
+
+        navigate('/dashboard')
+      } else{
+        Swal.fire({
+          title: 'Login Failed',
+          text: admin.message || "Invalid credentials",
+          icon: 'warning',
+          confirmButtonText: 'ok'
+        });
+      }
+    } catch(error){
       Swal.fire({
-        title: 'Oops! Invalid credentials ',
-        text: 'Try again',
+        title: 'Error',
+        text: error.response?.data?.message || 
+            "Something went Wrong, Please try again later",
         icon: 'error',
         confirmButtonText: 'OK'
       })

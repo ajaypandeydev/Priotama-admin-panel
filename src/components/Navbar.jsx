@@ -20,7 +20,7 @@ import { FaSignOutAlt, FaRedo, FaUserShield, FaBars } from "react-icons/fa";
 export default function Navbar({ onLogout, onResetPassword }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTabletOrAbove = useMediaQuery(theme.breakpoints.up("sm")); 
+  const isTabletOrAbove = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export default function Navbar({ onLogout, onResetPassword }) {
   };
 
   return (
-    <>
+    <div className="page-container">
       <AppBar position="static" sx={{ backgroundColor: "#191C24" }}>
         <Toolbar
           sx={{
@@ -38,7 +38,7 @@ export default function Navbar({ onLogout, onResetPassword }) {
             alignItems: "center",
           }}
         >
-          {/* Left side with icon + heading */}
+          {/* Left side with icon  */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <FaUserShield color="#8CCDED" size={24} style={{ marginRight: 8 }} />
             <Typography
@@ -103,6 +103,6 @@ export default function Navbar({ onLogout, onResetPassword }) {
           </List>
         </Box>
       </Drawer>
-    </>
+    </div>
   );
 }

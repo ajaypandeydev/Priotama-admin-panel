@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
+import ResetPassword from "./pages/ResetPassword";
 
 
 export default function AppRoutes() {
@@ -32,6 +33,11 @@ export default function AppRoutes() {
         <Route
           path="/"
           element={<AdminLogin setIsAuthenticated={setIsAuthenticated} />}
+        />
+
+        <Route
+          path="/reset-password/"
+          element={<ResetPassword setIsAuthenticated={setIsAuthenticated}/>}
         />
 
         {/* Dashboard Page (Protected Route) */}
