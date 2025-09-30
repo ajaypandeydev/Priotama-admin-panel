@@ -26,7 +26,7 @@ export default function AdminLogin({ setIsAuthenticated }) {
     setError("")
 
     try{
-      const response = await axios.post(`https://priotama-backend.onrender.com/api/admin/login`, form);
+      const response = await axios.post(`https://bitmaxtest.com/api/admin/login`, form);
 
       const {token, admin} = response.data;
 

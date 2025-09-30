@@ -39,7 +39,7 @@ export default function ResetPassword({ setIsAuthenticated }) {
       const token = localStorage.getItem("token"); // get token from login
 
       const response = await axios.post(
-        `https://priotama-backend.onrender.com/api/admin/change-password`,
+        `https://bitmaxtest.com/api/admin/change-password`,
         {
           oldPassword: formData.oldPassword,
           newPassword: formData.newPassword,

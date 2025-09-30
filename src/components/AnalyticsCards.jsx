@@ -12,7 +12,7 @@ export default function AnalyticsCards({ registered, blocked, users }) {
   // Handle CSV download
   const handleDownloadCSV = () => {
     const rows = [
-      ["Name", "Age","Gender", "Email", "Phone", "Profession", "Country", "State", "Hobby", "Instagram", "Blocked"],
+      ["Name", "Age","Gender", "Email", "Phone", "Profession", "Country", "State", "Hobby", "Instagram", "Action"],
       ...users.map(user => [
         user.name, 
         user.age,
@@ -23,8 +23,8 @@ export default function AnalyticsCards({ registered, blocked, users }) {
         user.country,
         user.state,
         user.hobby,
-        user.instagram,
-        user.blocked,
+        user.instaId,
+        user.isBlocked,
       ])
     ];
 

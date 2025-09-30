@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Container, Box, Dialog, DialogTitle, DialogContent, TextField, Button, Slide } from "@mui/material";
 import Navbar from "../components/Navbar";
@@ -13,27 +14,48 @@ export default function Dashboard({ onLogout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users")
-      .then((res) => setUsers(res.data))
+    const token = localStorage.getItem("token");
+    
+    axios.get("https://bitmaxtest.com/api/admin/users",{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((res) => {
+        if(Array.isArray(res.data)){
+          setUsers(res.data)
+        } else if(Array.isArray(res.data.users)){
+          setUsers(res.data.users)
+        } else{
+          setUsers([])
+        }
+      })
       .catch((err) => Swal.fire("Error fetching users:", err.message, "error"));
   }, []);
 
-  const handleToggleBlock = async (id, blocked) => {
+  const handleToggleBlock = async (id, isBlocked) => {
     try {
-      await axios.patch(`http://localhost:5000/users/${Number(id)}`, { blocked: !blocked });
+      const token = localStorage.getItem("token");
+      await axios.put(`https://bitmaxtest.com/api/admin/users/${id}/block`, 
+        {isBlocked: !isBlocked},
+        {
+          headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
       setUsers((prev) =>
         prev.map((user) =>
-          user.id === id ? { ...user, blocked: !user.blocked } : user
+          user._id === id ? { ...user, isBlocked: !user.isBlocked } : user
         )
       );
     } catch (error) {
       Swal.fire("Error updating user");
-      console.error("Error updating user:", error);
     }
   };
 
   const registeredCount = users.length;
-  const blockedCount = users.filter((u) => u.blocked).length;
+  const blockedCount = users.filter((u) => u.isBlocked).length;
 
   const handleResetPassword = () => navigate('/reset-password/');
 
